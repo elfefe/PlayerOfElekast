@@ -1,4 +1,4 @@
-package com.elfefe.elekast.player
+  package com.elfefe.elekast.player
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.elfefe.elekast.player.ui.theme.PlayerOfElekastTheme
 
-class MainActivity : ComponentActivity() {
+class StartActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -43,14 +43,12 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Slider(modifier: Modifier) {
-        LazyColumn {
+    fun SelectGamer(modifier: Modifier) {
 
-        }
     }
 
     @Composable
-    fun CardsSlider(modifier: Modifier) {
+    fun SelectGame(modifier: Modifier) {
 
     }
 }
