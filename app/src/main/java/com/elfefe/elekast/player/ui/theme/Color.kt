@@ -2,7 +2,14 @@ package com.elfefe.elekast.player.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val LightNormal = Color(0xFFffffff)
+val LightGrey = Color(0xFFeeeeee)
+val LightDark = Color(0xFFcccccc)
+val LightClear = Color(0x33ffffff)
+
+val DarkNormal = Color(0xFF000000)
+val DarkGrey = Color(0xFF222222)
+val DarkLight = Color(0xFFaaaaaa)
+val DarkClear = Color(0x33000000)
+
+val transparent = Color(0x00000000)
