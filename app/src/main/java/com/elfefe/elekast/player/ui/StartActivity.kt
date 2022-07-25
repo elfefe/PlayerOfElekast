@@ -62,14 +62,14 @@ class StartActivity : ComponentActivity() {
         }
     }
 
-    fun navigateTo(destination: String, delay: Number = 0) {
+    fun navigateTo(destination: String, args: String = "", delay: Number = 0) {
         if (!navigating.getAndSet(true))
             lifecycleScope.launch(Dispatchers.Default) {
                 delay(BaseComponent.currentComponent?.state?.let { state ->
                     state(false)
                 } ?: 0L)
                 delay(delay.toLong())
-                onMain { controller.navigate(destination) }
+                onMain { controller.navigate("${destination}${if (args.isNotEmpty()) "/$args" else ""}") }
                 navigating.set(false)
             }
     }
@@ -80,6 +80,7 @@ class StartActivity : ComponentActivity() {
                 .setSupported(true)
                 .setServerClientId("221223133518-vsq6fde3secf902oedi0g76n1uqetc6o.apps.googleusercontent.com")
                 .setFilterByAuthorizedAccounts(false)
-                .build())
+                .build()
+        )
         .build()
 }

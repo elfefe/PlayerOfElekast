@@ -1,5 +1,6 @@
 package com.elfefe.elekast.player.ui.component
 
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,7 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import com.elfefe.elekast.player.ui.StartActivity
 import com.elfefe.elekast.player.ui.theme.IntroButton
 import com.elfefe.elekast.player.ui.theme.Title
@@ -19,14 +22,22 @@ class GameComponent(activity: StartActivity) : BaseComponent(activity) {
     override val destination = GAME
 
     override fun NavGraphBuilder.compose() =
-        composable(destination) {
+        composable(
+            route = "${destination}/{gamer}",
+            arguments = listOf(navArgument("gamer") {})
+        ) { entry ->
             Animated(TRANSITION, TRANSITION) {
-                SelectGame()
+                entry.arguments?.getString("gamer")?.let { gamer ->
+                    SelectGame(gamer)
+                } ?: run {
+                    Toast.makeText(activity, "Your choice has not been saved", Toast.LENGTH_SHORT).show()
+                    activity.onBackPressed()
+                }
             }
         }
 
     @Composable
-    fun SelectGame() {
+    fun SelectGame(gamer: String) {
         setComponent()
         Column(
             modifier = Modifier,
@@ -40,7 +51,7 @@ class GameComponent(activity: StartActivity) : BaseComponent(activity) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Title(text = "Find your game")
+                Title(text = "$gamer find your game")
             }
             LazyColumn(
                 modifier = Modifier

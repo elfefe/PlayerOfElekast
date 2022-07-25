@@ -47,13 +47,13 @@ class GamerComponent(activity: StartActivity) : BaseComponent(activity) {
                 IntroButton(
                     text = "PLAYER",
                     onClick = {
-                        activity.navigateTo(GAME)
+                        activity.navigateTo(GAME, "Player")
                     }
                 )
                 IntroButton(
                     text = "GAME MASTER",
                     onClick = {
-                        activity.navigateTo(GAME)
+                        activity.navigateTo(GAME, "Game master")
                     }
                 )
             }
