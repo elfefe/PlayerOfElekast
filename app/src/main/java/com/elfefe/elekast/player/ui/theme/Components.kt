@@ -3,14 +3,13 @@ package com.elfefe.elekast.player.ui.theme
 import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -61,3 +60,22 @@ fun IntroButton(text: String, onClick: () -> Unit) = FixedButtons(
         .height(64.dp)
         .width(192.dp)
 )
+
+@Composable
+fun FixedIconButton(icon: ImageVector, onClick: () -> Unit) =
+    IconButton(
+        modifier = Modifier
+            .height(64.dp)
+            .width(192.dp),
+        onClick = onClick,
+        colors = IconButtonDefaults
+            .iconButtonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = icon.name
+        )
+    }

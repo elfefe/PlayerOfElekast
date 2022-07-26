@@ -1,15 +1,20 @@
 package com.elfefe.elekast.player.ui.component
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.*
 import androidx.navigation.NavGraphBuilder
+import com.elfefe.elekast.player.R
 import com.elfefe.elekast.player.ui.StartActivity
 import com.elfefe.elekast.player.utils.TRANSITION
+import com.elfefe.elekast.player.utils.extensions.crashlytics
+import com.elfefe.elekast.player.utils.extensions.resString
 import com.elfefe.elekast.player.utils.loge
 import com.elfefe.elekast.player.utils.transition
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 abstract class BaseComponent(protected open val activity: StartActivity) {
     abstract val destination: String
@@ -36,6 +41,13 @@ abstract class BaseComponent(protected open val activity: StartActivity) {
         ) {
             content()
         }
+    }
+
+    fun missingData(data: String = "") {
+        val issue = resString(R.string.back_missing_data, if (data.isEmpty()) data else "missing $data")
+        crashlytics.log(issue)
+        Toast.makeText(activity, issue, Toast.LENGTH_SHORT).show()
+        activity.onBackPressed()
     }
 
     companion object {

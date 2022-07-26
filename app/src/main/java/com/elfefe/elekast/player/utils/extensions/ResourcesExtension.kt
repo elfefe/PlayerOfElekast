@@ -1,3 +1,5 @@
-package com.elfefe.elekast.player.utils
+package com.elfefe.elekast.player.utils.extensions
 
-fun resString(res: Int) = app.getString(res)
+import com.elfefe.elekast.player.utils.app
+
+fun resString(res: Int, vararg args: Any?) = app.getString(res, args.map { it ?: "Unkown" })

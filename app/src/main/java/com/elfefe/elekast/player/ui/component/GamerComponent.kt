@@ -1,25 +1,28 @@
 package com.elfefe.elekast.player.ui.component
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.elfefe.elekast.player.R
+import com.elfefe.elekast.player.mvvm.FirebaseViewModel
 import com.elfefe.elekast.player.ui.StartActivity
 import com.elfefe.elekast.player.ui.theme.IntroButton
 import com.elfefe.elekast.player.ui.theme.Subtitle
-import com.elfefe.elekast.player.ui.theme.Title
 import com.elfefe.elekast.player.utils.*
-import com.google.firebase.auth.FirebaseAuth
+import com.elfefe.elekast.player.utils.extensions.resString
+import com.elfefe.elekast.player.utils.extensions.user
 
 
 class GamerComponent(activity: StartActivity) : BaseComponent(activity) {
     override val destination = GAMER
+
+    private val firebaseViewModel by activity.viewModels<FirebaseViewModel>()
 
     override fun NavGraphBuilder.compose() =
         composable(destination) {
@@ -37,7 +40,7 @@ class GamerComponent(activity: StartActivity) : BaseComponent(activity) {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Subtitle(text = "Tell me ${FirebaseAuth.getInstance().currentUser?.displayName}, what's your rôle in Elekast ?")
+            Subtitle(text = stringResource(R.string.title_gamer_choice, user?.displayName ?: missingData("authentication")))
             Column(
                 modifier = Modifier
                     .fillMaxHeight(.5f),

@@ -14,3 +14,9 @@ sealed class GoogleOneTap: Connection() {
     class Failure(val error: Exception) : GoogleOneTap()
     class Loading() : GoogleOneTap()
 }
+
+sealed class Authentication: Connection() {
+    class Success() : Authentication()
+    class Failure(val error: Exception?) : Authentication()
+    class Pending() : Authentication()
+}

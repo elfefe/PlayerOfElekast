@@ -2,7 +2,8 @@ package com.elfefe.elekast.player
 
 import android.app.Application
 import com.elfefe.elekast.player.mvvm.api.APIRepository
-import com.elfefe.elekast.player.utils.resString
+import com.elfefe.elekast.player.utils.extensions.crashlytics
+import com.elfefe.elekast.player.utils.extensions.resString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -15,6 +16,7 @@ class BaseApplication: Application() {
         super.onCreate()
         instance = this
         apiRepository = APIRepository(scope)
+        crashlytics.checkForUnsentReports()
         Thread.setDefaultUncaughtExceptionHandler { _, e ->
             scope.cancel("${resString(R.string.app_name)} as crashed.\n${e.localizedMessage}")
         }

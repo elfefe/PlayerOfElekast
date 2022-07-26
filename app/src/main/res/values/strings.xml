@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PlayerOfElekast</string>
+    <string name="onetap_connection_success">You are successfully connected with your google account.</string>
+    <string name="onetap_connection_failure">Could not connect to your google account.\n%1$s</string>
+    <string name="onetap_connection_trying">We are trying to connect your google account.</string>
+    <string name="title_games_list">%1$s find your game</string>
+    <string name="back_missing_data">Your choice has not been saved %1$s</string>
+    <string name="title_gamer_choice">Tell me %1$s , what\'s your rôle in Elekast ?</string>
 </resources>
