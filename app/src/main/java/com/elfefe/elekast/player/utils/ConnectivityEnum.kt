@@ -18,5 +18,5 @@ sealed class GoogleOneTap: Connection() {
 sealed class Authentication: Connection() {
     class Success() : Authentication()
     class Failure(val error: Exception?) : Authentication()
-    class Pending() : Authentication()
+    class Pending(val progress: Int = 0, val max: Int = 0) : Authentication()
 }

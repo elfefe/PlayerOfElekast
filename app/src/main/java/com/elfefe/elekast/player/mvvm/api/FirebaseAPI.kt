@@ -9,6 +9,7 @@ import com.elfefe.elekast.player.utils.extensions.user
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
@@ -27,41 +28,44 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class FirebaseAPI(private val scope: CoroutineScope) {
-    private val firebase = FirebaseApp.initializeApp(app)
-    private val appCheck = FirebaseAppCheck.getInstance()
+    private val firebase: FirebaseApp = FirebaseApp.initializeApp(app) ?: FirebaseApp.getInstance()
+    private val appCheck = FirebaseAppCheck.getInstance(firebase)
         .apply {
             installAppCheckProviderFactory(
                 SafetyNetAppCheckProviderFactory.getInstance()
             )
         }
     private val firestore = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
+    private val storage = FirebaseStorage.getInstance(firebase, "gs://playerofelekast.appspot.com")
 
 
-    private fun rules() {
+    private fun rules(onDownload: (Int, Int) -> Unit = {_, _ ->}, onFinish: () -> Unit = {}) {
         storage.reference.child("game/hex/rules").listAll().addOnCompleteListener {
             if (it.isSuccessful) {
-                download(it.result.items) {
-                    this@FirebaseAPI.loge = "Rules downloaded"
-                }
-            }
+                download(it.result.items, { progress ->
+                    onDownload(progress, it.result.items.size)
+                }, onFinish)
+            } else throw RuntimeException("Files not in storage.")
         }
     }
 
-    private fun download(references: List<StorageReference>, onFinish: () -> Unit = {}) {
+    private fun download(references: List<StorageReference>, onDownload: (Int) -> Unit, onFinish: () -> Unit = {}) {
         scope.launch(Dispatchers.IO) {
-            references.forEach { reference ->
-                reference.getFile(
-                    File(
-                        "${app.filesDir.absolutePath}${File.separator}rules",
-                        reference.name
-                    )
-                ).addOnSuccessListener {
+            val reference = references.firstOrNull()
+            reference ?: run {
+                onFinish()
+                return@launch
+            }
+            reference.getFile(
+                File(FileAPI.rules, reference.name).apply { createNewFile() }
+            ).addOnCompleteListener {
+                if (it.isSuccessful)
                     references.filter { left -> left != reference }.let { leftReferencies ->
-                        if(leftReferencies.isEmpty()) onFinish()
-                        else download(leftReferencies)
+                        onDownload(leftReferencies.size)
+                        if (leftReferencies.isEmpty()) onFinish()
+                        else download(leftReferencies, onDownload, onFinish)
                     }
-                }
+                else this@FirebaseAPI.loge = "Download issue ${it.exception}"
             }
         }
     }
@@ -108,7 +112,7 @@ class FirebaseAPI(private val scope: CoroutineScope) {
                     val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(googleCredentials)
                         .addOnCompleteListener {
-                            value = if (it.isSuccessful) {
+                            if (it.isSuccessful) {
                                 user?.uid?.let { id ->
                                     user?.displayName?.let { name ->
                                         user?.email?.let { email ->
@@ -119,8 +123,9 @@ class FirebaseAPI(private val scope: CoroutineScope) {
                                                     "visible" to true
                                                 )
                                             )
-                                            rules()
-                                            Authentication.Success()
+                                            rules({ progress, max ->
+                                                value = Authentication.Pending(max - progress, max)
+                                            }) { value = Authentication.Success() }
                                         }
                                     }
                                 } ?: Authentication.Failure(Exception("Missing user informations"))

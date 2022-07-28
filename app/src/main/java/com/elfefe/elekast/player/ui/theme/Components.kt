@@ -22,21 +22,27 @@ fun FixedSurface(modifier: Modifier = Modifier, content: @Composable () -> Unit 
 
 @Composable
 fun FixedText(text: String) =
-    Text(text = text)
+    FixedSurface {
+        Text(text = text)
+    }
 
 @Composable
 fun Title(text: String) =
-    Text(
-        text = text,
-        style = titleStyle
-    )
+    FixedSurface {
+        Text(
+            text = text,
+            style = titleStyle
+        )
+    }
 
 @Composable
 fun Subtitle(text: String) =
-    Text(
-        text = text,
-        style = subtitleStyle
-    )
+    FixedSurface {
+        Text(
+            text = text,
+            style = subtitleStyle
+        )
+    }
 
 @Composable
 fun FixedButtons(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) = Button(

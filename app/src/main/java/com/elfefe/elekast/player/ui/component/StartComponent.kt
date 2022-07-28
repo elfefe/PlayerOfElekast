@@ -52,16 +52,21 @@ class StartComponent(override val activity: StartActivity) : BaseComponent(activ
             var isClickable = true
             val launcher =
                 rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-                    firebaseViewModel.authentication(result, activity.oneTapClient).observe(activity) {
-                        when (it) {
-                            is Authentication.Success -> activity.navigateTo(GAMER)
-                            is Authentication.Failure -> {
-                                this@StartComponent.loge =
-                                    "Could not connect to your google account.\n${it.error?.localizedMessage}"
-                                isClickable = true
+                    firebaseViewModel.authentication(result, activity.oneTapClient)
+                        .observe(activity) {
+                            when (it) {
+                                is Authentication.Success -> activity.navigateTo(MAIN)
+                                is Authentication.Failure -> {
+                                    this@StartComponent.loge =
+                                        "Could not connect to your google account.\n${it.error?.localizedMessage}"
+                                    isClickable = true
+                                }
+                                is Authentication.Pending -> {
+                                    this@StartComponent.loge =
+                                        "Downloading ${it.progress} / ${it.max}"
+                                }
                             }
                         }
-                    }
                 }
             Column(
                 modifier = Modifier
@@ -98,7 +103,10 @@ class StartComponent(override val activity: StartActivity) : BaseComponent(activ
                                     }
                                     is GoogleOneTap.Failure -> {
                                         this@StartComponent.loge =
-                                            resString(R.string.onetap_connection_failure, oneTap.error.localizedMessage)
+                                            resString(
+                                                R.string.onetap_connection_failure,
+                                                oneTap.error.localizedMessage
+                                            )
                                         isClickable = true
                                     }
                                     else -> {

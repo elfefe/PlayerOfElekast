@@ -18,6 +18,8 @@ class FirebaseViewModel: ViewModel() {
 
     private val _googleSignIn = MutableLiveData<GoogleOneTap>()
     private val _authentication = MutableLiveData<Authentication>()
+    val authentication: LiveData<Authentication>
+        get() = _authentication
 
     fun StartActivity.googleSign(): LiveData<GoogleOneTap> = _googleSignIn.apply {
         repository.run {
