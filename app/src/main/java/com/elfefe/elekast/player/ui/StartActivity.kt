@@ -85,7 +85,7 @@ class StartActivity : ComponentActivity() {
             when (it) {
                 is Authentication.Pending -> {
                     isLoading = true
-                    loadingValue = it.max.toFloat() / it.progress.toFloat()
+                    loadingValue =  it.progress.toFloat() / it.max.toFloat()
                 }
                 else -> {
                     loadingValue = 0f

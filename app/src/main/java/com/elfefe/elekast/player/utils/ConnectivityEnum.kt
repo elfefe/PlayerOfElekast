@@ -12,7 +12,7 @@ sealed class Connection {
 sealed class GoogleOneTap: Connection() {
     class Success(val result: BeginSignInResult) : GoogleOneTap()
     class Failure(val error: Exception) : GoogleOneTap()
-    class Loading() : GoogleOneTap()
+    class Loading(val progress: Int = 0, val max: Int = 0) : GoogleOneTap()
 }
 
 sealed class Authentication: Connection() {

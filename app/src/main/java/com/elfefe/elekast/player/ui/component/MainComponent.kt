@@ -4,8 +4,10 @@ import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,6 +17,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -104,7 +109,28 @@ class MainComponent(activity: StartActivity) : BaseComponent(activity) {
                 properties = DialogProperties(usePlatformDefaultWidth = false),
                 onDismissRequest = { image = null }
             ){
-                Image(painter = this, contentDescription = "Dialog")
+                var scale by remember { mutableStateOf(1f) }
+                var offset by remember { mutableStateOf(Offset.Zero) }
+                Image(
+                    painter = this,
+                    contentDescription = "Dialog",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .graphicsLayer(
+                            scaleX = scale,
+                            scaleY = scale,
+                            translationX = if (scale > 1f) offset.x else 0f,
+                            translationY = if (scale > 1f) offset.y else 0f
+                        )
+                        .pointerInput(Unit) {
+                            detectTransformGestures(
+                                onGesture = { _, pan: Offset, zoom: Float, _ ->
+                                    offset += pan * 2f
+                                    scale = (scale * zoom).coerceIn(0.5f, 4f)
+                                }
+                            )
+                        }
+                )
             }
         }
     }
