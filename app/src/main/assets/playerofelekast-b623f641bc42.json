@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "playerofelekast",
+  "private_key_id": "b623f641bc42dc0a71ce0e897bb3713e248317bc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCn0k+LMwdo12hV\nrELLrfKoR5HKE0MP4tyyfGh+LjnTXSfC95eQ4MVCLxWYA1LJQOQ9V+DBUSBuMp7E\nWc1BggqgIuYEABs2IX+WYX6puddOhc2qJp/cSnDDxm8dUqlIUM3LVjWP5H5OD4Fj\npxU7D7aSJ/eUZi5UuyfJrcUUOYw5xH7tKh2zP9vcwKMmM1Y3ESDlFWM8JcLPkWUr\nOi3QQlM6sFKQV/niyz47i6LvzhEiwmfKXELvCffyDvwlbdNISGEeV8buhG49HGVW\nJQIxPjnu8LQ5OnWjIy9oIQ5iK7V36S3mhM9oo24zsqgqqU/kgfmtZnJLmIbchEVP\nfW3LNXBrAgMBAAECggEAFc5GZqRhRJakqGkjHrsB6iquf07EanaETa7LlwWjntqe\nVX99UqZaCzD6AdAAvESxw2S9P/EuIRNzvLicanQetFMEhyWKY5yzqtMNNbl/h+Tr\n5b1yDRohD9cjTfCVLV/OdarEd+dtH/B01AF8STnP86q8ySwDvh+5WkO5dVjK5yBy\nOmCaLJWGUpTKXJ9gD9Gc/0S7413xYYbPbCTZBOs/eycWnCL7wQ+ipE4ZvuU1fuJ7\nfGMBqYc83U67xrbjlakYxULbseiC8P236/ZsPDdx3uJwd0gbf8MSIqimWtr9uh3i\n6sCNGCjZ2dXEBc30yJ1VUxMq7k1LkOwL9ThUIpSHaQKBgQDr8L8RSVl4P/je3IEt\nGYdvfIN82FDt2CTrwUfe2pJhV+i8lGf903myfRl6adma0rP5BbJr0iAXBOGCQHhM\nqmmfvKySvIziDXVEPz+ReLTRfit0ht2jYtsd56fGkx+73wlGqMiYoF728ECYHZ0P\ni+WRx38I+Btp+2LET56+Gtdg4wKBgQC2FvQmAa5ihuf+7ZOJPEWXWPmzwtmavFgy\nzDLg5EXbLScpqTd+CP5e95aMPeVMejw1DTCzXgCrYhqjpzhYtZG4spgR+cX6gGlt\njH3eMMCpK8CA3cVmw/CHS89lIokvJp4Qju+UuOgwDdcMSn81fce2k0LwAi1QpB1v\nGqWxB4tw2QKBgGihR6ob1BBuligGs0ZTxura1diceS8wphbijMO4PCfs+yn9yiwX\nByXvMkhF/pkZDXTGYPxNn6t1n6fKfU7KV7Ld0c30zalFfJZ6Ue9qDw3EHPM9B7b4\nFOGrJIz8G5uN6igqm2KL4/EwVAThRRBq4rCGPsC0fju+nmseP/BgKNkvAoGAUqLM\nHkt5BoHO22SaJhfSRUM93xS4iH6dUEBXfrRZ94PgWAnRg0M1nYejLPYSD8kRdcoM\npfotN5oIGOkUqz2LalSyqsW90VdhgTPXE3TwmlWewVzj7yVRDTWcY3tu4pUV+tHD\nbK0VwmklhRBx9qakcfkW0bFLO2OfcAKZ22NfJtECgYA0+N4Xr/4bCYuLE3bgCPfk\nockNprqiab2bwFFU+a6iI9Ir9Q3jtjx/ATHgzYMeVdvJ9NwzmObGxf4xp2ydqcRs\nP+iF7tMJfqtG/oBH86ThQNgi5vqu5kdhf60js3b0IF6ozBUWyjqVa7DQwTPID5YZ\ntTRW+Ut5Qqds52mYrO9zwA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "playerofelekast@appspot.gserviceaccount.com",
+  "client_id": "100726455077088457637",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/playerofelekast%40appspot.gserviceaccount.com"
+}

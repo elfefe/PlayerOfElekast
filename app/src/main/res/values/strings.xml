@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlayerOfElekast</string>
+    <string name="app_name">PlayerOfHex</string>
     <string name="onetap_connection_success">You are successfully connected with your google account.</string>
     <string name="onetap_connection_failure">Could not connect to your google account.\n%1$s</string>
     <string name="onetap_connection_trying">We are trying to connect your google account.</string>
