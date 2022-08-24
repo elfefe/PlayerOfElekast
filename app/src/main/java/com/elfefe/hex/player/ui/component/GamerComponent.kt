@@ -1,6 +1,5 @@
 package com.elfefe.hex.player.ui.component
 
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -15,8 +14,7 @@ import com.elfefe.hex.player.ui.StartActivity
 import com.elfefe.hex.player.ui.theme.IntroButton
 import com.elfefe.hex.player.ui.theme.Subtitle
 import com.elfefe.hex.player.utils.*
-import com.elfefe.hex.player.utils.extensions.resString
-import com.elfefe.hex.player.utils.extensions.user
+import com.elfefe.hex.player.utils.extensions.*
 
 
 class GamerComponent(activity: StartActivity) : BaseComponent(activity) {
@@ -56,7 +54,7 @@ class GamerComponent(activity: StartActivity) : BaseComponent(activity) {
                 IntroButton(
                     text = "GAME MASTER",
                     onClick = {
-                        activity.navigateTo(MAIN)
+                        activity.navigateTo(GAME_MASTER)
                     }
                 )
             }

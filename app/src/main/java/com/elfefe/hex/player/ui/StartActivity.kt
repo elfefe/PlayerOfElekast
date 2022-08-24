@@ -1,10 +1,8 @@
 package com.elfefe.hex.player.ui
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Canvas
@@ -12,11 +10,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -24,20 +20,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.elfefe.hex.player.R
 import com.elfefe.hex.player.mvvm.FirebaseViewModel
 import com.elfefe.hex.player.ui.component.*
 import com.elfefe.hex.player.ui.theme.PlayerOfElekastTheme
 import com.elfefe.hex.player.utils.*
+import com.elfefe.hex.player.utils.extensions.START
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.api.client.http.javanet.NetHttpTransport
-import com.google.api.client.json.gson.GsonFactory
-import com.google.api.services.drive.Drive
-import com.google.api.services.drive.DriveScopes
-import com.google.auth.http.HttpCredentialsAdapter
-import com.google.auth.oauth2.GoogleCredentials
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -74,7 +65,8 @@ class StartActivity : ComponentActivity() {
                     StartComponent(this@StartActivity).run { compose() }
                     GamerComponent(this@StartActivity).run { compose() }
                     GameComponent(this@StartActivity).run { compose() }
-                    MainComponent(this@StartActivity).run { compose() }
+                    PlayerComponent(this@StartActivity).run { compose() }
+                    GameMasterComponent(this@StartActivity).run { compose() }
                 }
                 Loading()
             }
@@ -125,7 +117,7 @@ class StartActivity : ComponentActivity() {
         .setGoogleIdTokenRequestOptions(
             BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                 .setSupported(true)
-                .setServerClientId("221223133518-vsq6fde3secf902oedi0g76n1uqetc6o.apps.googleusercontent.com")
+                .setServerClientId(getString(R.string.google_server_client_id))
                 .setFilterByAuthorizedAccounts(false)
                 .build()
         )

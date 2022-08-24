@@ -2,7 +2,6 @@ package com.elfefe.hex.player.ui.component
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.viewModels
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -37,9 +35,10 @@ import com.elfefe.hex.player.mvvm.api.FileAPI
 import com.elfefe.hex.player.ui.StartActivity
 import com.elfefe.hex.player.ui.theme.Subtitle
 import com.elfefe.hex.player.utils.*
+import com.elfefe.hex.player.utils.extensions.MAIN
 import java.io.File
 
-class MainComponent(activity: StartActivity) : BaseComponent(activity) {
+class PlayerComponent(activity: StartActivity) : BaseComponent(activity) {
     override val destination = MAIN
 
     private val firebaseViewModel by activity.viewModels<FirebaseViewModel>()
@@ -66,7 +65,7 @@ class MainComponent(activity: StartActivity) : BaseComponent(activity) {
         }
         firebaseViewModel.authentication.observe(activity) {
             if (it is Authentication.Success) {
-                rules = FileAPI.rules.listFiles()?.map { file -> file.absolutePath }?.toList()
+                rules = FileAPI.cards.listFiles()?.map { file -> file.absolutePath }?.toList()
                     ?: listOf()
             }
         }

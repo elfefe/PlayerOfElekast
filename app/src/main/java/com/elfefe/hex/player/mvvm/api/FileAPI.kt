@@ -5,7 +5,8 @@ import java.io.File
 
 class FileAPI {
     companion object {
-        val rules: File
-            get() = File("${app.filesDir.absolutePath}${File.separator}rules").apply { mkdirs() }
+        val cards: File
+            get() = File("${app.filesDir.absolutePath}${File.separator}$CARDS").apply { mkdirs() }
+        const val CARDS = "cards"
     }
 }

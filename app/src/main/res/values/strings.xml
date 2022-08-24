@@ -6,4 +6,8 @@
     <string name="title_games_list">%1$s find your game</string>
     <string name="back_missing_data">Your choice has not been saved %1$s</string>
     <string name="title_gamer_choice">Tell me %1$s , what\'s your rôle in Elekast ?</string>
+    <string name="google_server_client_id">221223133518-vsq6fde3secf902oedi0g76n1uqetc6o.apps.googleusercontent.com</string>
+    <string name="drive_service_account">playerofelekast-sa.json</string>
+    <string name="current_friend">Current</string>
+    <string name="not_yet_friends">Not yet</string>
 </resources>
