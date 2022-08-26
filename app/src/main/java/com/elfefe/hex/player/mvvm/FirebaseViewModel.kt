@@ -26,28 +26,46 @@ class FirebaseViewModel : ViewModelExtension() {
 
     fun StartActivity.googleSign(): LiveData<GoogleOneTap> =
         repository.run {
-            googleSignIn
-                .toLivedata()
-                .apply {
-                    _googleSignIn.value
-                }
+            _googleSignIn.apply {
+                googleSignIn
+                    .onEach {
+                        postValue(it)
+                    }.launchIn(viewModelScope)
+            }
         }
 
     fun authentication(result: ActivityResult, client: SignInClient): LiveData<Authentication> =
         repository
             .firebaseAuthentication(result, client)
-            .toLivedata()
-            .apply { _authentication.value = value }
+            .run {
+                _authentication.apply {
+                    onEach {
+                        postValue(it)
+                    }.launchIn(viewModelScope)
+                }
+            }
 
     fun friends(): LiveData<List<Friend>> =
         repository
             .friends
-            .toLivedata()
+            .run {
+                MutableLiveData<List<Friend>>().apply {
+                    onEach {
+                        postValue(it)
+                    }.launchIn(viewModelScope)
+                }
+            }
 
     fun players(): LiveData<List<Player>> =
         repository
             .players
-            .toLivedata()
+            .run {
+                MutableLiveData<List<Player>>().apply {
+                    onEach {
+                        postValue(it)
+                    }.launchIn(viewModelScope)
+                }
+            }
 
     fun askGameMaster() {
         repository.askGameMaster()
