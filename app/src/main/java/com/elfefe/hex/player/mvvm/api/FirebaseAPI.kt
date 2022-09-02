@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -127,8 +128,7 @@ class FirebaseAPI(private val scope: CoroutineScope) {
         _authenticationFlow.apply {
             if (result.resultCode == Activity.RESULT_OK) {
                 try {
-                    val credentials =
-                        client.getSignInCredentialFromIntent(result.data)
+                    val credentials = client.getSignInCredentialFromIntent(result.data)
                     credentials.googleIdToken?.let {
                         loge = "Credential $it"
                         credential(it) { exception ->
@@ -155,7 +155,7 @@ class FirebaseAPI(private val scope: CoroutineScope) {
             .addOnCompleteListener { auth ->
                 if (auth.isSuccessful) {
                     player?.let { player ->
-                        gamers.document(player.id).updatePlayer(player)
+                        updatePlayer(player)
                         rules({ progress, max ->
                             value = Authentication.Pending(max - progress, max)
                         }) { value = Authentication.Success() }
@@ -164,18 +164,19 @@ class FirebaseAPI(private val scope: CoroutineScope) {
             }
     }
 
-    private fun DocumentReference.setPlayer(
+    private fun setPlayer(
         player: Player,
         onSuccess: () -> Unit = {},
         onError: (Exception) -> Unit = {}
     ) {
-        set(
+        loge = "set  $player"
+        gamers.document(player.id).set(
             mutableMapOf(
                 "name" to player.name,
                 "email" to player.email,
-                "visible" to player.isVisible
+                "visible" to player.visible
             ).apply {
-                player.folder?.let { put("id", player.id) }
+                player.folder?.let { put("folder", it) }
             }
         ).addOnCompleteListener {
             if (it.isSuccessful) onSuccess() else onError(
@@ -184,25 +185,26 @@ class FirebaseAPI(private val scope: CoroutineScope) {
         }
     }
 
-    private fun DocumentReference.updatePlayer(player: Player) {
+    private fun updatePlayer(player: Player) {
         setPlayer(
             player = player,
             onSuccess = {
-                get().addOnCompleteListener { doc ->
-                    if (doc.isSuccessful)
-                        updatePlayerFolder(player.apply { folder = doc.result["id"]?.toString() })
-                    else loge = doc.exception?.localizedMessage
-                        ?: "Error while querying id"
+                gamers.document(player.id).get().addOnCompleteListener { doc ->
+                    doc.result.player?.let {
+                        updatePlayerFolder(player)
+                    } ?: run {
+                        loge = doc.exception?.localizedMessage ?: "Error while querying id"
+                    }
                 }
             },
             onError = {
-                loge = it.localizedMessage
-                    ?: "Error while querying id"
+                loge = it.localizedMessage ?: "Error while querying id"
             }
         )
     }
 
-    private fun DocumentReference.updatePlayerFolder(player: Player) {
+    private fun updatePlayerFolder(player: Player) {
+        loge = "player $player"
         drive.createFolder(
             DriveFile(
                 player.email,
@@ -221,16 +223,14 @@ class FirebaseAPI(private val scope: CoroutineScope) {
     fun friends(): StateFlow<List<Friend>> = MutableStateFlow<List<Friend>>(listOf()).apply {
         user?.uid?.let { id ->
             gamers.document(id).friends.addSnapshotListener { result, _ ->
-                result?.documents?.map { doc ->
-                    doc.friend
-                }?.let { list -> value = list }
+                result?.documents?.map { doc -> doc.friend }?.let { list -> value = list }
             }
         }
     }
 
     fun players(): StateFlow<List<Player>> = MutableStateFlow<List<Player>>(listOf()).apply {
         gamers.get().addOnCompleteListener {
-            if (it.isSuccessful) value = it.result.documents.map { doc -> doc.player }
+            if (it.isSuccessful) value = it.result.documents.mapNotNull { doc -> doc.player }
             else loge = "Error querying gamers. ${it.exception?.localizedMessage ?: "unkown"}"
         }
     }

@@ -6,7 +6,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.auth.User
 
 val user: FirebaseUser?
     get() = FirebaseAuth.getInstance().currentUser
@@ -30,11 +29,13 @@ val DocumentSnapshot.friend: Friend
         added = this["added"] as Boolean
     )
 
-val DocumentSnapshot.player: Player
-    get() = Player(
-        id = id,
-        name = this["name"]?.toString() ?: "",
-        email = this["email"]?.toString() ?: "",
-        isVisible = this["visible"] as Boolean? ?: false,
-        folder = this["id"]?.toString() ?: ""
-    )
+val DocumentSnapshot.player: Player?
+    get() = (this["email"] as String?)?.let { email ->
+        Player(
+            id = id,
+            name = this["email"]?.toString() ?: "",
+            email = email,
+            visible = this["visible"] as Boolean? ?: false,
+            folder = this["folder"]?.toString() ?: ""
+        )
+    }

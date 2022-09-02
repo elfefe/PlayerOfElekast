@@ -47,6 +47,7 @@ class DriveAPI(private val scope: CoroutineScope) {
     ) {
         scope.launch(Dispatchers.IO) {
             try {
+                loge = "file "+file.id.toString()
                 file.id?.let { id ->
                     readFile(
                         id,
